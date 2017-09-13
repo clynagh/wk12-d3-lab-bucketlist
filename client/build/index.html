@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src = "bundle.js"></script>
+    <title>World</title>
+</head>
+<body>
+    <title>
+        <h1>Bucket List</h1>
+    </title>
+
+    <form id = 'countries-form' name = 'countries-form' method="post">
+        
+        <input type="text" name = 'search' value = "Search">
+
+        <label for="toVisit">To Visit</label>
+        <select name="toVisit" id="toVisit" >
+            <option disabled selected value> -- select an option -- </option>
+        </select>
+        <label for="visited">Visited</label>
+        <select name="visited" id="visited" >
+            <option disabled selected value> -- select an option -- </option>
+        </select>
+        <input type="submit" name="Submit" id="submit">
+    </form>
+
+    <section id = "printDetails">
+    </section>
+</body>
+</html>
