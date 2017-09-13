@@ -13,7 +13,7 @@ MongoClient.connect('mongodb://localhost:27017/world', function(err,database){
 //countries INDEX
 
 countryRouter.get('/', function(req, res){
-  db.collection('world').find().toArray(function(err,results){
+  db.collection('bucketList').find().toArray(function(err,results){
     if(err) console.log("oops" + err);
     res.json(results);
   })
@@ -28,9 +28,7 @@ countryRouter.get('/', function(req, res){
 // create
 countryRouter.post('/', function(req, res){
   console.log(req.body)
-  db.collection('world').insert({
-    name: req.body.name,
-    });
+  db.collection('bucketList').insert(req.body);
   db.collection('world').find().toArray(function(err,results){
     if(err) console.log("oops" + err);
     res.json(results);

@@ -4,6 +4,7 @@ var Store = require('./models/store.js')
 
 function app(){
   var countriesData = new AjaxRequest('https://restcountries.eu/rest/v2/all');
+
   var store = new Store();
   var countriesView = new CountriesView();
   var form = document.querySelector('#countries-form');
@@ -16,6 +17,9 @@ function app(){
   })
   
   countriesData.get(store.saveData);
+
+  var dropDown = document.querySelector('toVisit');
+  countriesView.populateDropdown()
 }
 
 window.addEventListener('load', app);

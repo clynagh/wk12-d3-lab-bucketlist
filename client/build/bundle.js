@@ -73,6 +73,7 @@ var Store = __webpack_require__(3)
 
 function app(){
   var countriesData = new AjaxRequest('https://restcountries.eu/rest/v2/all');
+
   var store = new Store();
   var countriesView = new CountriesView();
   var form = document.querySelector('#countries-form');
@@ -85,6 +86,9 @@ function app(){
   })
   
   countriesData.get(store.saveData);
+
+  var dropDown = document.querySelector('toVisit');
+  countriesView.populateDropdown()
 }
 
 window.addEventListener('load', app);
@@ -165,7 +169,7 @@ CountriesView.prototype.render = function(data){
 
     button.addEventListener('click', function(e){
         e.preventDefault();
-        var bucketListAjax = new AjaxRequest('http://localhost:3000/api/countries')
+        var bucketListAjax = new AjaxRequest('http://localhost:3000/api/countries')              
         bucketListAjax.post(this.addToList, data)
     }.bind(this));
         // ===========================
@@ -207,6 +211,20 @@ CountriesView.prototype.clearPage = function(){
 }
 }
 
+CountriesView.prototype.populateDropdown = function(){
+    var bucketListAjax = new AjaxRequest('http://localhost:3000/api/countries')              
+    bucketListAjax.get(this.listNames)
+    // console.log("populate dropdown")
+}
+
+CountriesView.prototype.listNames = function(data){
+    var dropDown = document.querySelector('#toVisit');
+    for (var country of data){
+        var option = document.createElement('option')
+        option.innerText = country.name
+        dropDown.appendChild(option);
+    }
+}
 module.exports = CountriesView;
 
 
