@@ -112,25 +112,25 @@ var AjaxRequest= function(url) {
     request.send();
   }
   
-//   AjaxRequest.prototype.post = function(callback, body){
-//     var request = new XMLHttpRequest();
-//     request.open("POST", this.url);
-//     request.setRequestHeader("Content-type", "application/json");
-//     request.onload = function(){
-//       if(request.status === 200){
-//         var jsonString = request.responseText;
-//         this.data = JSON.parse(jsonString);
-//         callback(this.data);
-//       }
-//     }.bind(this);
-//     request.send(JSON.stringify(body));
-//   }
+  AjaxRequest.prototype.post = function(callback, body){
+    var request = new XMLHttpRequest();
+    request.open("POST", this.url);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.onload = function(){
+      if(request.status === 200){
+        callback(body);
+      }
+    }.bind(this);
+    request.send(JSON.stringify(body));
+  }
   
   module.exports = AjaxRequest;
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+var AjaxRequest = __webpack_require__(1)
 
 var CountriesView = function(){
 
@@ -154,7 +154,23 @@ CountriesView.prototype.render = function(data){
     var li = document.createElement('li')
     var li2 = document.createElement('li')
     var flag = document.createElement('img');
+
+    // ========FORM=============
+    var form = document.createElement('form')
     var button = document.createElement('button')
+    var text = document.createTextNode('Add to Bucket')
+    form.appendChild(button);
+    button.appendChild(text);
+    form.id = ('submitForm')
+
+    button.addEventListener('click', function(e){
+        e.preventDefault();
+        var bucketListAjax = new AjaxRequest('http://localhost:3000/api/countries')
+        bucketListAjax.post(this.addToList, data)
+    }.bind(this));
+        // ===========================
+
+
     title.innerText = data.name;
     li.innerText = data.capital
     li2.innerText = data.population
@@ -166,12 +182,22 @@ CountriesView.prototype.render = function(data){
     section.appendChild(title);
     title.appendChild(flag)
     section.appendChild(ul);
-    section.appendChild(button)
+    section.appendChild(form)
     ul.appendChild(li)
     ul.appendChild(li2)
     
 }
     // console.log(data);
+}
+
+CountriesView.prototype.addToList = function(country){
+    var dropdownElement = document.querySelector('#toVisit');
+    var optionElement = document.createElement('option');
+    optionElement.innerText = country.name;
+    console.log(dropdownElement);
+    console.log(optionElement);
+    dropdownElement.appendChild(optionElement);
+    console.log(country.name);
 }
 
 CountriesView.prototype.clearPage = function(){
